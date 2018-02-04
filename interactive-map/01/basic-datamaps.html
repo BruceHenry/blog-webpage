@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+    <title>Basic Datamaps</title>
+    <link rel="stylesheet" href="./basic-datamaps.css"/>
+
+    <script src="//cdnjs.cloudflare.com/ajax/libs/d3/3.5.3/d3.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/topojson/1.6.9/topojson.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/datamaps/0.5.8/datamaps.all.js"></script>
+
+</head>
+<body>
+
+<div id="map" style="width: 800px;height: 475px;position: relative; margin:auto">
+</div>
+
+<div id="input" style="width: 800px;position: relative; margin:auto">
+    <table style="width:100%">
+        <tr>
+            <th rowspan="2"><span style="color: #040066">Year</span></th>
+            <td colspan="18">
+                <label for="year"></label>
+                <input type="range" min="2015" max="2100" step="5" value="2015" autocomplete="off" id="year"/>
+            </td>
+        </tr>
+        <tr style="color: #0026bf;font-size: 12px;text-align: center;">
+            <td>2015</td>
+            <td>2020</td>
+            <td>2025</td>
+            <td>2030</td>
+            <td>2035</td>
+            <td>2040</td>
+            <td>2045</td>
+            <td>2050</td>
+            <td>2055</td>
+            <td>2060</td>
+            <td>2065</td>
+            <td>2070</td>
+            <td>2075</td>
+            <td>2080</td>
+            <td>2085</td>
+            <td>2090</td>
+            <td>2095</td>
+            <td>2100</td>
+        </tr>
+    </table>
+</div>
+
+<script src="basic-datamaps.js"></script>
+
+</body>
+</html>
