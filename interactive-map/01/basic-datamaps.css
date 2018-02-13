@@ -12,7 +12,6 @@
 
 #year::-webkit-slider-thumb {
     -webkit-appearance: none;
-    appearance: none;
     width: 25px;
     height: 25px;
     border-radius: 50%;
@@ -26,4 +25,8 @@
     border-radius: 50%;
     background: #0462ff;
     cursor: pointer;
+}
+
+#year::-moz-range-track {
+    background: none;
 }
