@@ -1,29 +1,34 @@
-var relation_data;//To store the data from JSON file loaded by d3.json()
-var location_data;
+var relation_data;//relation data among cities
+var location_data;//location data of cities
 
-//Get width and height of the outer div to set projection
+//Get width and height of the outer <div> to set projection
 var map_div = d3.select('#map').node().getBoundingClientRect();
 var width = map_div.width, height = map_div.height;
 
+//This values means the initial scale of map, also how much you want the map to zoom in: d3.geo.scale = projection_scale * mouse_event_zoom
 var projection_scale = 500;
 
-//Projection is to set the center and scale of map
+//Projection is a property to set the center and scale of map. Also, we can use it to get position in the map from real world geo coordinates.
 var projection = d3.geo.equirectangular()
     .center([-98, 38])//[longitude, latitude]
-    .scale(projection_scale)
+    .scale(projection_scale)//Initial scale
     .translate([width / 2, height / 2]);
 
+//Pop up a box when mouse is over a city
 var popup = d3.select('body')
     .append('div')
     .attr('class', 'popup')
-    .style('opacity', 0);
+    .style('opacity', 0);//Invisible
 
 
 function renderMap(projection) {
+    //Remove the previous map elements
     const mapNode = document.getElementById("map");
     while (mapNode.firstChild) {
         mapNode.removeChild(mapNode.firstChild);
     }
+
+    //Render new map
     new Datamaps({
         element: document.getElementById('map'),
         projection: 'mercator',
@@ -32,7 +37,7 @@ function renderMap(projection) {
             return {path: path, projection: projection};
         },
         fills: {
-            defaultFill: '#8ebdee' //the keys in this object map to the 'fillKey' of [loc_data_dict] or [bubbles]
+            defaultFill: '#8ebdee'
         },
         geographyConfig: {
             popupOnHover: false, //disable the popup while hovering
@@ -41,9 +46,12 @@ function renderMap(projection) {
     });
 }
 
+//Function to draw circles(cities) on the map.
 function drawCity(location_data, projection) {
+    //Remove previous circles
     d3.select('#circles').remove();
 
+    //Put the data into an array. The parameter of d3.(Select_Function).data() must be iterable.
     var data = [];
     for (var city in location_data) {
         data.push({
@@ -51,11 +59,14 @@ function drawCity(location_data, projection) {
             location: location_data[city]
         });
     }
+
+    //Append all circles into a <g> tag in order to manipulate them easily.
     var circles = d3.select('svg')
         .append('g')
         .attr('id', 'circles')
         .selectAll('circle');
 
+    //Set attributes and styles of circles based on the data
     circles.data(data)
         .enter()
         .append('circle')
@@ -85,15 +96,19 @@ function drawCity(location_data, projection) {
             popup.transition()
                 .duration(500)
                 .style('opacity', 0);
-        })
+        });
 }
 
+//Function to draw lines(relations) on the map.
 function drawLine(relation_data, location_data, projection, animation_length) {
+    //Remove previous circles
     d3.select("#lines").remove();
 
+    //Get values from the input
     var year = d3.select("#year").property("value");
     var city = d3.select("#city").property("value");
 
+    //If user drag the year slider without selecting any cities, return directly.
     if (!city)
         return;
 
@@ -101,11 +116,13 @@ function drawLine(relation_data, location_data, projection, animation_length) {
 
     var colorScale = d3.scale.category20();
 
+    //Append all lines into a <g> tag in order to manipulate them easily.
     var lines = d3.select('svg')
         .append('g')
         .attr('id', 'lines')
         .selectAll('line');
 
+    //Set attributes and styles of lines based on the data
     lines.data(data)
         .enter()
         .append('line')
@@ -135,39 +152,42 @@ d3.json("./city_location.json", function (city_location) {
         location_data = city_location;
         relation_data = data;
 
+        //Append cities into the city selection list
         var city_selector = d3.select('#city');
         for (var city in location_data) {
             city_selector.append('option').text(city);
         }
+
         renderMap(projection);//Render the map after loading the data
-        drawCity(location_data, projection);
+        drawCity(location_data, projection);//Draw cities after loading the data
     });
 });
 
+//Handle zoom (including drag) event
 d3.select('#map').call(
-    d3.behavior.zoom().scaleExtent([0.5, 5]).on('zoom', function () {
-        projection = d3.geo.equirectangular()
-            .center([-98, 38])
-            .scale(projection_scale * d3.event.scale)
-            .translate([width / 2 + d3.event.translate[0], height / 2 + d3.event.translate[1]]);
-        renderMap(projection);
-        drawCity(location_data, projection);
-        drawLine(relation_data, location_data, projection, 0);
-    })
+    d3.behavior.zoom()
+        .scaleExtent([0.5, 5])
+        .on('zoom', function () {
+            //Update projection (projection will be changed after zooming or dragging)
+            projection = d3.geo.equirectangular()
+                .center([-98, 38])
+                .scale(projection_scale * d3.event.scale)
+                .translate([width / 2 + d3.event.translate[0], height / 2 + d3.event.translate[1]]);
+
+            renderMap(projection);
+            drawCity(location_data, projection);
+            drawLine(relation_data, location_data, projection, 0);
+        })
 );
 
+//Handle city selector change
 d3.select("#city").on('change', function () {
     drawLine(relation_data, location_data, projection, 300);
 });
 
-///Remove the old map and render a new map when the user change input
+//Handle year input change
 d3.select("#year").on('input', function () {
-    //Remove the old map
-    var mapNode = document.getElementById("map");
-    while (mapNode.firstChild) {
-        mapNode.removeChild(mapNode.firstChild);
-    }
-    renderMap(projection);//Render a new map when the year is changed
+    renderMap(projection);
     drawCity(location_data, projection);
     drawLine(relation_data, location_data, projection, 0);
 });
