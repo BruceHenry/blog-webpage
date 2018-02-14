@@ -1,32 +1,3 @@
-#map {
-    width: 800px;
-    height: 425px;
-    position: relative;
-    margin: auto;
-}
-
-#input {
-    width: 800px;
-    position: relative;
-    margin: auto;
-}
-
-table {
-    width: 100%;
-}
-
-th {
-    color: #e66d18;
-    font-size: 25px;
-}
-
-tr {
-    color: #0026bf;
-    font-size: 12px;
-    font-weight: bold;
-    text-align: center;
-}
-
 #year {
     -webkit-appearance: none;
     width: 98%;
@@ -41,6 +12,7 @@ tr {
 
 #year::-webkit-slider-thumb {
     -webkit-appearance: none;
+    appearance: none;
     width: 25px;
     height: 25px;
     border-radius: 50%;
@@ -54,13 +26,4 @@ tr {
     border-radius: 50%;
     background: #0462ff;
     cursor: pointer;
-}
-
-#year::-moz-range-track {
-    background: none;
-}
-
-p {
-    text-align: center;
-    color: #e66d18;
 }
