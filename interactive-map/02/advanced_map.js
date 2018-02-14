@@ -145,7 +145,7 @@ d3.json("./city_location.json", function (city_location) {
 });
 
 d3.select('#map').call(
-    d3.behavior.zoom().scaleExtent([1, 10]).on('zoom', function () {
+    d3.behavior.zoom().scaleExtent([0.5, 5]).on('zoom', function () {
         projection = d3.geo.equirectangular()
             .center([-98, 38])
             .scale(projection_scale * d3.event.scale)

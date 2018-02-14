@@ -13,7 +13,7 @@
 
 #map {
     width: 800px;
-    height: 425px;
+    height: 300px;
     position: relative;
     margin: auto;
 }
@@ -81,5 +81,6 @@ tr {
 }
 
 ul {
-    color: #003540;
+    color: #00242b;
+    font-weight: bold;
 }
