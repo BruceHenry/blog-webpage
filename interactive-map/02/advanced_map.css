@@ -1,3 +1,52 @@
+.popup {
+    position: absolute;
+    text-align: center;
+    width: 80px;
+    height: 15px;
+    padding: 2px;
+    font: 12px sans-serif;
+    background: #ebebeb;
+    border: 0;
+    border-radius: 8px;
+    pointer-events: none;
+}
+
+#map {
+    width: 800px;
+    height: 425px;
+    position: relative;
+    margin: auto;
+}
+
+#input {
+    width: 800px;
+    position: relative;
+    margin: auto;
+}
+
+label {
+    color: #37ca98;
+    font-size: 20px;
+    font-weight: bold;
+}
+
+table {
+    width: 100%;
+}
+
+th {
+    color: #e66d18;
+    font-size: 20px;
+    text-align: left;
+}
+
+tr {
+    color: #0026bf;
+    font-size: 12px;
+    font-weight: bold;
+    text-align: center;
+}
+
 #year {
     -webkit-appearance: none;
     width: 98%;
@@ -12,7 +61,6 @@
 
 #year::-webkit-slider-thumb {
     -webkit-appearance: none;
-    appearance: none;
     width: 25px;
     height: 25px;
     border-radius: 50%;
@@ -26,4 +74,12 @@
     border-radius: 50%;
     background: #0462ff;
     cursor: pointer;
+}
+
+#year::-moz-range-track {
+    background: none;
+}
+
+ul {
+    color: #003540;
 }

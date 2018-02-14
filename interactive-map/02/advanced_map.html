@@ -4,28 +4,31 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width">
     <title>Advanced Interactive Map</title>
-    <link rel="stylesheet" href="advanced_map.css"/>
+    <link rel="stylesheet" href="./advanced_map.css"/>
 
     <script src="//cdnjs.cloudflare.com/ajax/libs/d3/3.5.3/d3.min.js"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/topojson/1.6.9/topojson.min.js"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/datamaps/0.5.8/datamaps.all.js"></script>
-
 </head>
 <body>
 
-<div id="map" style="width: 800px;height: 475px;position: relative; margin:auto">
-</div>
+<div id="map"></div>
 
-<div id="input" style="width: 800px;position: relative; margin:auto">
-    <table style="width:100%">
+<div id="input">
+    <label for="city">City</label>
+    <select id="city" autocomplete="off">
+        <option disabled selected value> -- select a city --</option>
+    </select>
+
+    <table>
         <tr>
-            <th rowspan="2"><span style="color: #040066">Year</span></th>
+            <th rowspan="2">Year</th>
             <td colspan="21">
                 <label for="year"></label>
                 <input type="range" min="2000" max="2018" step="1" value="2000" autocomplete="off" id="year"/>
             </td>
         </tr>
-        <tr style="color: #0026bf;font-size: 12px;text-align: center;">
+        <tr>
             <td>2000</td>
             <td>2001</td>
             <td>2002</td>
@@ -47,9 +50,14 @@
             <td>2018</td>
         </tr>
     </table>
+    <ul>
+        <li>Try selecting a city (click on the map or use dropdown list).</li>
+        <li>Try dragging the year slider.</li>
+        <li>Try zooming in and dragging the map.</li>
+    </ul>
 </div>
 
-<script src="./basic-datamaps.js"></script>
+<script src="./advanced_map.js"></script>
 
 </body>
 </html>

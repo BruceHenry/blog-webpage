@@ -1,19 +1,19 @@
-var json_data;
+var json_data;//To store the data from JSON file loaded by d3.json()
 
 function renderMap() {
-    //A object to store values and colors, i.e. {}
-    var data = {};
+    var data = {};//A object to store values and colors, i.e. { USA: { numberOfThings: 37.6, fillColor: "#333e90"} }
+    var values = [];//The array to store all the values in order to find min and max
 
-    //The array to store all the values in order to find min and max
-    var values = [];
+    var year = document.getElementById('year').value;//Get value from input
 
-    var year = document.getElementById('year').value;
+    //Iterate the data array to retrieve the value of each country in the specific year
     for (var country in json_data) {
         var value = json_data[country]['data'][year];
         data[country] = {numberOfThings: value};
         values.push(value)
     }
 
+    //Get min and max values to set the color scale
     var minValue = Math.min.apply(null, values),
         maxValue = Math.max.apply(null, values);
 
@@ -22,7 +22,7 @@ function renderMap() {
         .domain([minValue, maxValue])
         .range(["#afe0ff", "#040066"]);
 
-    //Put color into the data array
+    //Put color into the data array for each country
     for (var country in data) {
         data[country]['fillColor'] = colorScale(data[country]['numberOfThings'])
     }
@@ -53,7 +53,7 @@ function renderMap() {
 //Asynchronously load the data file
 d3.json("./MedianAge.json", function (data) {
     json_data = data;
-    renderMap();
+    renderMap();//Render the map after loading the data
 });
 
 ///Remove the old map and render a new map when the user change input
@@ -63,6 +63,5 @@ document.getElementById('year').oninput = function () {
     while (mapNode.firstChild) {
         mapNode.removeChild(mapNode.firstChild);
     }
-    //Render a new map
-    renderMap();
+    renderMap();//Render a new map when the year is changed
 };
