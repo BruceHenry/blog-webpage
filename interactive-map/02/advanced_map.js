@@ -157,8 +157,10 @@ d3.json("./city_location.json", function (city_location) {
             city_selector.append('option').text(city);
         }
 
+        d3.select('#city').property('value', 'Los Angeles');
         renderMap(projection);//Render the map after loading the data
         drawCity(location_data, projection);//Draw cities after loading the data
+        drawLine(relation_data, location_data, projection, 300);
     });
 });
 
@@ -167,11 +169,12 @@ d3.select('#map').call(
     d3.behavior.zoom()
         .scaleExtent([0.5, 5])
         .on('zoom', function () {
+            var scale = d3.event.scale;
             //Update projection (projection will be changed after zooming or dragging)
             projection = d3.geo.equirectangular()
                 .center([-98, 38])
-                .scale(projection_scale * d3.event.scale)
-                .translate([width / 2 + d3.event.translate[0], height / 2 + d3.event.translate[1]]);
+                .scale(projection_scale * scale)
+                .translate([width / 2 * scale + d3.event.translate[0], height / 2 * scale + d3.event.translate[1]]);
 
             renderMap(projection);
             drawCity(location_data, projection);
