@@ -37,7 +37,7 @@ function renderMap(projection) {
             return {path: path, projection: projection};
         },
         fills: {
-            defaultFill: '#8ebdee'
+            defaultFill: '#4d4d4d'
         },
         geographyConfig: {
             popupOnHover: false, //disable the popup while hovering
@@ -70,7 +70,7 @@ function drawCity(location_data, projection) {
     circles.data(data)
         .enter()
         .append('circle')
-        .attr('fill', '#ff919f')
+        .attr('fill', '#ffb043')
         .attr('r', 4)
         .attr('cx', function (d) {
             return projection(d.location)[0];
