@@ -5,13 +5,14 @@ var location_data;//location data of cities
 var map_div = d3.select('#map').node().getBoundingClientRect();
 var width = map_div.width, height = map_div.height;
 
-//This values means the initial scale of map, also how much you want the map to zoom in: d3.geo.scale = projection_scale * mouse_event_zoom
-var projection_scale = 500;
+//This values means the initial scale of map, also how much you want the map to zoom in: d3.geo.scale = default_scale * mouse_event_zoom
+var default_scale = 500;
+var zoomed_scale = default_scale;
 
 //Projection is a property to set the center and scale of map. Also, we can use it to get position in the map from real world geo coordinates.
 var projection = d3.geo.equirectangular()
     .center([-98, 38])//[longitude, latitude]
-    .scale(projection_scale)//Initial scale
+    .scale(default_scale)//Initial scale
     .translate([width / 2, height / 2]);
 
 //Pop up a box when mouse is over a city
@@ -71,7 +72,7 @@ function drawCity(location_data, projection) {
         .enter()
         .append('circle')
         .attr('fill', '#ffb043')
-        .attr('r', 4)
+        .attr('r', Math.log(zoomed_scale)/2)
         .attr('cx', function (d) {
             return projection(d.location)[0];
         })
@@ -87,7 +88,7 @@ function drawCity(location_data, projection) {
             renderLineChart(relation_data);
         })
         .on('mouseover', function (d) {
-            d3.select(this).attr('r', 7).style('cursor', "pointer");
+            d3.select(this).attr('r', 6).style('cursor', "pointer");
             popup.style('opacity', .8)
                 .style('left', (d3.event.pageX) + 'px')
                 .style('top', (d3.event.pageY - 20) + 'px')
@@ -264,10 +265,11 @@ d3.select('#map').call(
         .scaleExtent([0.5, 5])
         .on('zoom', function () {
             var scale = d3.event.scale;
+            zoomed_scale = default_scale * scale;
             //Update projection (projection will be changed after zooming or dragging)
             projection = d3.geo.equirectangular()
                 .center([-98, 38])
-                .scale(projection_scale * scale)
+                .scale(zoomed_scale)
                 .translate([width / 2 * scale + d3.event.translate[0], height / 2 * scale + d3.event.translate[1]]);
 
             renderMap(projection);
