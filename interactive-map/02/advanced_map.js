@@ -24,7 +24,7 @@ var popup = d3.select('body')
 
 function renderMap(projection) {
     //Remove the previous map elements
-    const mapNode = document.getElementById("map");
+    var mapNode = document.getElementById("map");
     while (mapNode.firstChild) {
         mapNode.removeChild(mapNode.firstChild);
     }
@@ -34,7 +34,7 @@ function renderMap(projection) {
         element: document.getElementById('map'),
         projection: 'mercator',
         setProjection: function (element) {
-            const path = d3.geo.path().projection(projection);
+            var path = d3.geo.path().projection(projection);
             return {path: path, projection: projection};
         },
         fills: {
